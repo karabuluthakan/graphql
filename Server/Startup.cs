@@ -1,13 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GraphQL;
+using GraphQL.Server;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Hosting; 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Orders.QraphQL.Enums;
+using Orders.QraphQL.Queries;
+using Orders.QraphQL.Schemas;
+using Orders.QraphQL.Types;
 using Orders.Services.Abstract;
 using Orders.Services.Concrete;
 
@@ -27,6 +28,13 @@ namespace Server
         {
             services.AddSingleton<IOrderService, OrderManager>();
             services.AddSingleton<ICustomerService, CustomerManager>();
+            services.AddSingleton<OrderType>();
+            services.AddSingleton<CustomerType>();
+            services.AddSingleton<OrderStatusesGraphEnum>();
+            services.AddSingleton<OrdersQuery>();
+            services.AddSingleton<OrdersSchema>();
+            services.AddSingleton<IDependencyResolver>(x=> new FuncDependencyResolver(type => x.GetRequiredService(type)));
+            services.AddGraphQL(); 
             services.AddRazorPages();
         }
 
@@ -49,6 +57,7 @@ namespace Server
 
             app.UseRouting();
 
+            app.UseWebSockets();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });

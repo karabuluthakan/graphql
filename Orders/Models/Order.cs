@@ -11,7 +11,7 @@ namespace Orders.Models
             Description = description;
             Created = created;
             CustomerId = customerId;
-            Status = OrderStatuses.CREATED;
+            Status = OrderStatusesEnum.CREATED;
         }
 
         public string Id { get; private set; }
@@ -19,16 +19,6 @@ namespace Orders.Models
         public string Description { get; set; }
         public DateTime Created { get; private set; }
         public int CustomerId { get; set; }
-        public OrderStatuses Status { get; set; }
-    }
-
-    [Flags]
-    public enum OrderStatuses
-    {
-        CREATED = 2,
-        PROCESSING = 4,
-        COMPLETED = 8,
-        CANCELLED = 16,
-        CLOSED = 32
+        public OrderStatusesEnum Status { get; set; }
     }
 }
