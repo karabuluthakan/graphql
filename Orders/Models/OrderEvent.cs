@@ -4,9 +4,10 @@ namespace Orders.Models
 {
     public class OrderEvent
     {
-        public OrderEvent(string id, string orderName, string orderId, OrderStatusesEnum status, DateTime timestamp)
+        public OrderEvent(string orderName, string orderId, OrderStatusesEnum status, DateTime timestamp)
         {
-            Id = id;
+            Id = Guid.NewGuid().ToString();
+            ;
             OrderName = orderName;
             OrderId = orderId;
             Status = status;
